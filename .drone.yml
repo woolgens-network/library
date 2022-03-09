@@ -1,0 +1,53 @@
+---
+kind: pipeline
+type: docker
+name: Java Maven Mono Deploy
+
+trigger:
+  branch:
+    - master
+  event:
+    - push
+
+steps:
+  - name: settings
+    image: md5lukas/drone-mvn-settings
+    settings:
+      servers:
+        - id: woolgens
+          username: woolgens
+      serverSecrets:
+        from_secret: WOOLGENS_NEXUS_CREDENTIALS
+  - name: testing
+    depends_on: [settings]
+    image: maven
+    commands:
+      - mvn test -B -s settings.xml
+  - name: deploy
+    depends_on: [testing]
+    image: maven
+    commands:
+      - mvn deploy -B -s ../settings.xml
+---
+kind: pipeline
+type: docker
+name: Java Maven Mono PR Test
+
+trigger:
+  event:
+    - pull_request
+
+steps:
+  - name: settings
+    image: md5lukas/drone-mvn-settings
+    settings:
+      servers:
+        - id: woolgens
+          username: woolgens
+      serverSecrets:
+        from_secret: WOOLGENS_NEXUS_CREDENTIALS
+  - name: testing
+    depends_on: [settings]
+    image: maven
+    commands:
+      - mvn test -B -s ../settings.xml
