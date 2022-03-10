@@ -21,6 +21,7 @@
         <module>database</module>
         <module>spigot</module>
         <module>all</module>
+        <module>microservice</module>
     </modules>
 
     <properties>
