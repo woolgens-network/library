@@ -27,7 +27,7 @@ steps:
     depends_on: [testing]
     image: maven
     commands:
-      - mvn deploy -B -s ../settings.xml
+      - mvn deploy -B -s settings.xml
 ---
 kind: pipeline
 type: docker
@@ -50,4 +50,4 @@ steps:
     depends_on: [settings]
     image: maven
     commands:
-      - mvn test -B -s ../settings.xml
+      - mvn test -B -s settings.xml
