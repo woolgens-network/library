@@ -19,7 +19,7 @@ public interface HttpRequester {
 
     <T> HttpResponse<T> patch(String url, Class<?> responseType, Object body);
 
-    void delete(String url);
+    boolean delete(String url);
 
     String getBaseUrl();
 

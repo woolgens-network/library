@@ -150,7 +150,7 @@ public class OkHttpRequester implements HttpRequester{
     }
 
     @Override
-    public void delete(String url){
+    public boolean delete(String url){
         try {
             Request.Builder request = new Request.Builder().url(baseUrl.concat(url))
                     .delete();
@@ -159,11 +159,13 @@ public class OkHttpRequester implements HttpRequester{
             }
             Response response = client.newCall(request.build()).execute();
             response.close();
+            return true;
         } catch (IOException e) {
             if(hasMapper()) {
                 mapper.map(e);
             }
         }
+        return false;
     }
 
 
